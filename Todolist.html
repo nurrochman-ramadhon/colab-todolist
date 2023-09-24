@@ -1,61 +1,139 @@
 <script>
-    //To Do List
-    //Fiturnya:
+  //To Do List
+  //Fiturnya:
 
-    //1. menampilkan data
-    //2. menambah data
-    //3. sort data :
-        //a. view based on isDone
-        //b. view based on dateStart - dateEnd
-    //4. Edit data
-    //5. Delete data
+  //1. menampilkan data
+  //2. menambah data
+  //3. sort data :
+  //a. view based on isDone
+  //b. view based on dateStart - dateEnd
+  //4. Edit data
+  //5. Delete data
 
-    // Deklarasi Variabel
-    let dataTodo = [{
-        id : 1,
-        todo : "Belajar",
-        date : new Date("2023-04-20"),
-        isDone : true
+  // Deklarasi Variabel
+  let dataTodo = [
+    {
+      id: 1,
+      todo: "Belajar",
+      date: new Date("2023-04-20"),
+      isDone: true,
     },
     {
-        id : 2,
-        todo : "Bermain",
-        date : new Date("2023-09-21"),
-        isDone : false
-    }]
+      id: 2,
+      todo: "Bermain",
+      date: new Date("2023-09-21"),
+      isDone: false,
+    },
+  ];
 
-    const nameMonth = ["Januari","Februari","Maret", "April","Mei", "Juni", "Agustus", "September", "Oktober", "November", "Desember"]
-    let menu = prompt(`Silahkan pilih menu :\n1. Lihat ToDo List anda\n2. Tambah data ToDo List anda\n3. Cari data Todo anda\n 4. Edit data Todo anda\n5. Delete data Todo anda `)
+  const nameMonth = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+  let menu = prompt(
+    `Silahkan pilih menu :\n1. Lihat ToDo List anda\n2. Tambah data ToDo List anda\n3. Cari data Todo anda\n4. Edit data Todo anda\n5. Delete data Todo anda `
+  );
 
+  //Deklarasi Fungsi
+  //1. Lihat data Todo anda
+  const showData = () => {
+    let result = "ToDo List :\n\n";
+    for (let i = 0; i < dataTodo.length; i++) {
+      result += `${i + 1}.ID : ${dataTodo[i].id}\n  Agenda : ${
+        dataTodo[i].todo
+      }\n  Tanggal: ${dataTodo[i].date.getDate()} ${
+        nameMonth[dataTodo[i].date.getMonth()]
+      } ${dataTodo[i].date.getFullYear()}\n  Keterangan : ${
+        dataTodo[i].isDone
+      }\n`;
+    }
+    return result;
+  };
 
-    //Deklarasi Fungsi
-    //1. Lihat data Todo anda
+  //2. Tambah data Todo anda
 
+  //3. Cari atau Sort data anda
+  //a. view based isDone
+  //b. view based date
 
+  //4. Edit data Todo anda
+  const edit = () => {
+    while (true) {
+      let id = parseInt(
+        prompt(`${showData()}\nMasukkan ID data yang ingin diubah :`)
+      );
+      let idx = dataTodo.findIndex((val) => val.id == parseInt(id));
+      if (idx < 0) {
+        alert(`ID ${id} tidak ditemukan`);
+      } else {
+        let properti = prompt(
+          `ID : ${id}\nAgenda : ${dataTodo[idx].todo}\nTanggal: ${dataTodo[
+            idx
+          ].date.getDate()} ${
+            nameMonth[dataTodo[idx].date.getMonth()]
+          } ${dataTodo[idx].date.getFullYear()}\nKeterangan : ${
+            dataTodo[idx].isDone
+          }\n\nMasukkan properti yang ingin diubah :`
+        );
+        properti = properti.toLowerCase();
+        const convert = { agenda: "todo", tanggal: "date", keterangan: "isDone" };
+        if (properti === "tanggal") {
+          let value = new Date(
+            prompt(
+              `${properti} : ${dataTodo[idx].date.getDate()} ${
+                nameMonth[dataTodo[idx].date.getMonth()]
+              } ${dataTodo[
+                idx
+              ].date.getFullYear()}\n\nMasukkan perubahan *(yyyy/mm/dd):`
+            )
+          );
+          dataTodo[idx][convert[properti]] = new Date(value);
+          alert(`${showData()}\nSUKSES`);
+          break
+        } else if (properti === "agenda " || "keterangan") {
+          let value = prompt(
+            `${properti} : ${
+              dataTodo[idx][convert[properti]]
+            }\n\nMasukkan perubahan :`
+          );
+          dataTodo[idx][convert[properti]] = value;
+          alert(`${showData()}\nSUKSES`);
+          break
+        } else {
+          alert(`Properti ${properti} tidak ditemukan`);
+        }
+      }
+    }
+  };
 
+  //5. Delete data Todo anda
+  const hapus = () => {
+    let id = parseInt(
+      prompt(`${showData()}\nMasukkan id data yang ingin dihapus :`)
+    );
+    let idx = dataTodo.findIndex((val) => val.id == parseInt(id));
+    if (idx < 0) {
+      alert(`ID ${id} tidak ditemukan`);
+    } else { 
+      dataTodo.splice(idx, 1);
+      alert (`${showData()}\nData berhasil dihapus`)
+    }
+  };
 
-    //2. Tambah data Todo anda
-
-
-
-
-    //3. Cari atau Sort data anda
-        //a. view based isDone
-        //b. view based date
-
-
-
-
-
-    //4. Edit data Todo anda
-    
-
-
-
-
-
-    //5. Delete data Todo anda
-
-
-
+  if (menu === "1") {
+    alert(showData());
+  } else if (menu === "4") {
+    edit();
+  } else if (menu === "5") {
+    hapus();
+  }
 </script>
