@@ -46,7 +46,7 @@
   //Deklarasi Fungsi
   //1. Lihat data Todo anda
   const showData = () => {
-    let result = "ToDo List :\n\n";
+    let result = "ToDo List :\n";
     for (let i = 0; i < dataTodo.length; i++) {
       result += `${i + 1}.ID : ${dataTodo[i].id}\n  Agenda : ${
         dataTodo[i].todo
@@ -54,8 +54,12 @@
         nameMonth[dataTodo[i].date.getMonth()]
       } ${dataTodo[i].date.getFullYear()}\n  Keterangan : ${
         dataTodo[i].isDone
-      }\n`;
+      }`;
+      if (i < dataTodo.length) {
+        result +=`\n------------------------\n`;
+      }
     }
+
     return result;
   };
 
@@ -85,7 +89,11 @@
           }\n\nMasukkan properti yang ingin diubah :`
         );
         properti = properti.toLowerCase();
-        const convert = { agenda: "todo", tanggal: "date", keterangan: "isDone" };
+        const convert = {
+          agenda: "todo",
+          tanggal: "date",
+          keterangan: "isDone",
+        };
         if (properti === "tanggal") {
           let value = new Date(
             prompt(
@@ -98,7 +106,7 @@
           );
           dataTodo[idx][convert[properti]] = new Date(value);
           alert(`${showData()}\nSUKSES`);
-          break
+          break;
         } else if (properti === "agenda " || "keterangan") {
           let value = prompt(
             `${properti} : ${
@@ -107,7 +115,7 @@
           );
           dataTodo[idx][convert[properti]] = value;
           alert(`${showData()}\nSUKSES`);
-          break
+          break;
         } else {
           alert(`Properti ${properti} tidak ditemukan`);
         }
@@ -123,9 +131,9 @@
     let idx = dataTodo.findIndex((val) => val.id == parseInt(id));
     if (idx < 0) {
       alert(`ID ${id} tidak ditemukan`);
-    } else { 
+    } else {
       dataTodo.splice(idx, 1);
-      alert (`${showData()}\nData berhasil dihapus`)
+      alert(`${showData()}\nData berhasil dihapus`);
     }
   };
 
